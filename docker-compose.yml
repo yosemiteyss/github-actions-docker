@@ -1,0 +1,13 @@
+services:
+  runner:
+    build:
+      context: ./src
+    restart: always
+    environment:
+      - REPO=
+      - TOKEN=
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: '2G'
