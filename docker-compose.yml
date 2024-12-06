@@ -1,8 +1,10 @@
 services:
   runner:
-    build:
-      context: ./src
-    restart: always
+    image: ghcr.io/yosemiteyss/actions-ubuntu-image:latest
+    restart: unless-stopped
+    volumes:
+      # dind: docker socket pass through
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - REPO=
       - TOKEN=
@@ -10,4 +12,4 @@ services:
       resources:
         limits:
           cpus: '2.0'
-          memory: '2G'
+          memory: '1G'
