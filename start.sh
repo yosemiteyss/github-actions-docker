@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 
-# Get registration token
-echo "Get registration token for: ${REPO}"
-REG_TOKEN=$(curl -X POST -H "Authorization: token ${TOKEN}" -H "Accept: application/vnd.github+json" \
-    "https://api.github.com/repos/${REPO}/actions/runners/registration-token" | jq .token --raw-output)
-
 # Get list of offline runners
 echo "Get offline runners for: ${REPO}"
 OFFLINE_RUNNER_LIST=$(curl -H "Authorization: token ${TOKEN}" -H "Accept: application/vnd.github+json" \
@@ -24,6 +19,11 @@ for id in $(echo "$OFFLINE_RUNNER_LIST" | jq -r '.[] | @base64'); do
     curl -X DELETE -H "Accept: application/vnd.github+json" -H "Authorization: token ${TOKEN}" \
         "https://api.github.com/repos/${REPO}/actions/runners/${RUNNER_ID}"
 done
+
+# Get registration token
+echo "Get registration token for: ${REPO}"
+REG_TOKEN=$(curl -X POST -H "Authorization: token ${TOKEN}" -H "Accept: application/vnd.github+json" \
+    "https://api.github.com/repos/${REPO}/actions/runners/registration-token" | jq .token --raw-output)
 
 # Configure new runner
 echo "Start configure runner..."
