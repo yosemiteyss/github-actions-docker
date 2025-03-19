@@ -29,10 +29,6 @@ RUN /home/runner/actions-runner/bin/installdependencies.sh
 COPY start.sh /home/runner/start.sh
 RUN chmod +x /home/runner/start.sh
 
-# Copy delete script
-COPY delete-runners.sh /home/runner/delete-runners.sh
-RUN chmod +x /home/runner/delete-runners.sh
-
 # Switch to new user
 USER runner
 WORKDIR /home/runner
